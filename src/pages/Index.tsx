@@ -1,11 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import FloatingHearts from "@/components/FloatingHearts";
+import NameInput from "@/components/NameInput";
+import ValentineCard from "@/components/ValentineCard";
 
 const Index = () => {
+  const [name, setName] = useState("");
+  const [step, setStep] = useState<"input" | "question">("input");
+
+  const handleNameSubmit = (submittedName: string) => {
+    setName(submittedName);
+    setStep("question");
+  };
+
+  const handleReset = () => {
+    setName("");
+    setStep("input");
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen gradient-romantic flex items-center justify-center p-6 overflow-hidden relative">
+      <FloatingHearts />
+      
+      <div className="w-full max-w-2xl z-10">
+        {step === "input" ? (
+          <NameInput onSubmit={handleNameSubmit} />
+        ) : (
+          <ValentineCard name={name} onReset={handleReset} />
+        )}
       </div>
     </div>
   );
