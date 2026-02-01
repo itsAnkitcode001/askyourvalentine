@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import Confetti from "./Confetti";
@@ -12,20 +12,25 @@ const ValentineCard = ({ name, onReset }: ValentineCardProps) => {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [accepted, setAccepted] = useState(false);
   const [attempts, setAttempts] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const noButtonRef = useRef<HTMLButtonElement>(null);
 
   const moveNoButton = () => {
-    if (!containerRef.current) return;
+    const button = noButtonRef.current;
+    if (!button) return;
+
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const buttonRect = button.getBoundingClientRect();
     
-    const container = containerRef.current.getBoundingClientRect();
-    const buttonWidth = 150;
-    const buttonHeight = 60;
+    // Calculate safe boundaries (keep button fully visible with padding)
+    const padding = 20;
+    const maxX = viewportWidth - buttonRect.width - padding * 2;
+    const maxY = viewportHeight - buttonRect.height - padding * 2;
     
-    const maxX = container.width - buttonWidth - 50;
-    const maxY = container.height - buttonHeight - 50;
-    
-    const newX = Math.random() * maxX - maxX / 2;
-    const newY = Math.random() * maxY - maxY / 2;
+    // Generate random position within safe bounds
+    const newX = padding + Math.random() * maxX;
+    const newY = padding + Math.random() * maxY;
     
     setNoButtonPosition({ x: newX, y: newY });
     setAttempts((prev) => prev + 1);
@@ -68,10 +73,7 @@ const ValentineCard = ({ name, onReset }: ValentineCardProps) => {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="relative flex flex-col items-center justify-center gap-8 min-h-[400px] w-full"
-    >
+    <div className="relative flex flex-col items-center justify-center gap-8 min-h-[400px] w-full">
       <div className="relative">
         <Heart className="w-24 h-24 text-accent fill-accent animate-pulse-heart" />
       </div>
@@ -80,7 +82,7 @@ const ValentineCard = ({ name, onReset }: ValentineCardProps) => {
         {getMessage()}
       </h1>
 
-      <div className="flex flex-wrap gap-6 items-center justify-center mt-8 relative min-h-[100px] w-full">
+      <div className="flex flex-wrap gap-6 items-center justify-center mt-8">
         <Button
           variant="yes"
           onClick={() => setAccepted(true)}
@@ -90,14 +92,22 @@ const ValentineCard = ({ name, onReset }: ValentineCardProps) => {
         </Button>
 
         <Button
+          ref={noButtonRef}
           variant="no"
           onMouseEnter={moveNoButton}
           onTouchStart={moveNoButton}
           onClick={moveNoButton}
-          className="transition-all duration-200"
-          style={{
-            transform: `translate(${noButtonPosition.x}px, ${noButtonPosition.y}px)`,
-          }}
+          className="transition-all duration-150"
+          style={
+            attempts > 0
+              ? {
+                  position: "fixed",
+                  left: noButtonPosition.x,
+                  top: noButtonPosition.y,
+                  zIndex: 50,
+                }
+              : undefined
+          }
         >
           No 😢
         </Button>
