@@ -48,20 +48,26 @@ const ValentineCard = ({ name, onReset }: ValentineCardProps) => {
     return (
       <>
         <Confetti />
+        <Confetti />
         <div className="flex flex-col items-center justify-center gap-8 animate-bounce-in">
-          <div className="relative">
-            <Heart className="w-32 h-32 text-accent fill-accent animate-pulse-heart" />
+          <div className="relative flex gap-4">
+            <Heart className="w-24 h-24 text-accent fill-accent animate-pulse-heart" />
+            <Heart className="w-32 h-32 text-primary fill-primary animate-pulse-heart" style={{ animationDelay: "0.2s" }} />
+            <Heart className="w-24 h-24 text-accent fill-accent animate-pulse-heart" style={{ animationDelay: "0.4s" }} />
           </div>
           <h1 className="font-romantic text-5xl md:text-7xl text-center text-gradient-heart">
-            Yay! 🎉
+            Yay! 🎉🥳💖
           </h1>
-          <p className="text-2xl md:text-3xl text-center text-foreground/80 font-medium">
+          <p className="text-2xl md:text-3xl text-center text-foreground/80 font-medium animate-bounce-in" style={{ animationDelay: "0.3s" }}>
             I knew you'd say yes, {name}! 💕
           </p>
-          <p className="text-xl text-muted-foreground text-center max-w-md">
-            You just made me the happiest person in the world! 
-            Can't wait to spend Valentine's Day with you! 💝
+          <p className="text-xl text-muted-foreground text-center max-w-md animate-fade-in" style={{ animationDelay: "0.5s" }}>
+            You just made me the happiest girl in the world! 🥹✨
+            Can't wait to spend Valentine's Day with you! 💝💘💗
           </p>
+          <div className="flex flex-wrap gap-2 justify-center text-4xl animate-fade-in" style={{ animationDelay: "0.7s" }}>
+            <span>🎊</span><span>💐</span><span>🌹</span><span>💌</span><span>🎀</span><span>✨</span><span>🎊</span>
+          </div>
           <div className="flex gap-4 mt-4">
             <Button variant="romantic" size="xl" onClick={onReset}>
               Start Over
