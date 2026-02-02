@@ -24,17 +24,17 @@ const NameInput = ({ onSubmit }: NameInputProps) => {
       </div>
       
       <h1 className="font-romantic text-5xl md:text-7xl text-center text-gradient-heart">
-        I have something to ask...
+        Please enter your name...
       </h1>
       
       <p className="text-lg md:text-xl text-muted-foreground text-center max-w-md">
-        But first, I need to know who I'm asking! 💕
+        I have something special to ask you! 💕
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm">
         <Input
           type="text"
-          placeholder="Enter her name..."
+          placeholder="Enter his name..."
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="text-center text-lg h-14 rounded-full border-2 border-primary/30 focus:border-primary bg-card shadow-romantic placeholder:text-muted-foreground/50"
